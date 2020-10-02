@@ -2,8 +2,8 @@
     <string name="app_name">Leo Notes</string>
     <string name="AddBtn">Add</string>
     <string name="ImageBlablaDescr">Bla bla</string>
-    <string name="titleLb">Title</string>
-    <string name="noteLb">Note text</string>
+    <string name="titleLb">Title:</string>
+    <string name="noteLb">Note text:</string>
 
 
 </resources>

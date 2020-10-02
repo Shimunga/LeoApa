@@ -1,15 +1,21 @@
 package com.example.leoapa
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(),
-   AdapterEventListener {
+class MainActivity : AppCompatActivity(), AdapterEventListener {
+
+   companion object {
+      const val ENTRY_INTENT = 100
+      const val ENTRY_RESULT = "EntryResult"
+   }
 
    private val shoppingItemsForDb = mutableListOf<ShoppingItemForDb>()
 
@@ -35,7 +41,7 @@ class MainActivity : AppCompatActivity(),
       staggLinearSwitch.setOnCheckedChangeListener { _, isChecked -> switchLayouts(isChecked) }
    }
 
-   fun onClickAddBtn(v: View) {
+   fun onClickAddBtn() {
       val name = itemEd.text.toString()
       val itemNew = ShoppingItemForDb(
          name,
@@ -55,7 +61,7 @@ class MainActivity : AppCompatActivity(),
       itemNew.uid = db.shoppingItemForDbDao().insertAll(itemNew).first()
    }
 
-   fun onClickSortBtn(view: View) {
+   fun onClickSortBtn() {
       //shoppingItems.sortedBy{view.transitionName}
    }
 
@@ -70,13 +76,26 @@ class MainActivity : AppCompatActivity(),
       }
    }
 
-   fun onClickSaveBtn(view: View) {
-
-   }
-
    override fun deleteClicked(item: ShoppingItemForDb) {
       db.shoppingItemForDbDao().delete(item)
    }
+
+   fun onClickNewNote() {
+      //val intent = Intent(this, NoteCardActivity::class.java)
+      //startActivity(intent)
+      val intent = Intent(this, NoteCardActivity::class.java)
+      startActivityForResult(intent, ENTRY_INTENT)
+   }
+
+   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+      super.onActivityResult(requestCode, resultCode, data)
+      if (requestCode == ENTRY_INTENT /*&& resultCode == Activity.RESULT_OK*/) {
+         data?.let {
+            Toast.makeText(this, "Note entry form result: ${data.getStringExtra(ENTRY_RESULT)}", Toast.LENGTH_LONG).show()
+         }
+      }
+   }
+
 }
 
 interface AdapterEventListener{

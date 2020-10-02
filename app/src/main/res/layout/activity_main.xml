@@ -47,29 +47,17 @@
         tools:layout_editor_absoluteY="7dp"
         tools:ignore="MissingConstraints" />
 
-    <Button
-        android:id="@+id/saveBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="4dp"
-        android:onClick="onClickSaveBtn"
-        android:text="Save"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemEd" />
-
     <Switch
         android:id="@+id/staggLinearSwitch"
-        android:layout_width="156dp"
-        android:layout_height="27dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="4dp"
+        android:layout_width="152dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+
         android:checked="false"
         android:text="Linear/Staggered"
-        app:layout_constraintStart_toEndOf="@id/saveBtn"
-        app:layout_constraintBaseline_toBaselineOf="@id/saveBtn"
-
- />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemEd" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mainItemsGrd"
@@ -86,4 +74,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/staggLinearSwitch"
         tools:listitem="@layout/note_list_card" />
+
+    <Button
+        android:id="@+id/newNoteBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:onClick="onClickNewNote"
+        android:text="New note"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/staggLinearSwitch" />
 </androidx.constraintlayout.widget.ConstraintLayout>
