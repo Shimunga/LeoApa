@@ -10,52 +10,46 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.note_list_card.view.*
 import kotlinx.android.synthetic.main.note_list_card.view.removeBtn as removeBtn1
 
-class NotesListAdapter(
-   private val listener: AdapterEventListener,
-   private val items: MutableList<ShoppingItemForDb>) :
-   RecyclerView.Adapter<NotesListAdapter.NotesListViewHolder>() {
+class NotesListAdapter(private val listener: AdapterEventListener, private val notesItemList: NotesItemList) : RecyclerView.Adapter<NotesListAdapter.NotesListViewHolder>()
+{
 
    class NotesListViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
    //Inflate layout and create view holder
    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesListViewHolder {
-      val view =
-         LayoutInflater.from(parent.context).inflate(R.layout.note_list_card, parent, false)
-      return NotesListViewHolder(
-         view
-      )
+      val view= LayoutInflater.from(parent.context).inflate(R.layout.note_list_card, parent, false)
+      return NotesListViewHolder(view)
    }
 
    // Need to return item count
-   override fun getItemCount() = items.size
+   override fun getItemCount() = notesItemList.size
 
    var context: Context? = null
-   var item: ShoppingItemForDb? = null
+   var currentItem: NotesItem? = null
 
    override fun onBindViewHolder(holder: NotesListViewHolder, position: Int) {
-      item = items[position]
+      currentItem = notesItemList[position]
       context = holder.itemView.context
-      holder.itemView.titleTxt.text = item?.title
-      holder.itemView.descriptionTxt.text = item?.text
+      holder.itemView.titleTxt.text = currentItem?.title
+      holder.itemView.descriptionTxt.text = currentItem?.text
+      holder.itemView.removeBtn1.tag = currentItem!!.uid
 
       holder.itemView.setOnClickListener {
-         Toast.makeText(context, item?.title, Toast.LENGTH_SHORT).show()
+         Toast.makeText(context, currentItem?.title, Toast.LENGTH_SHORT).show()
       }
 
-
       holder.itemView.removeBtn1.setOnClickListener{
-         //deleteItem(items.indexOf(item))
-         wannaDelete()
+
+         //wannaDelete(notesItemList[it.tag as Int]!!)
+         wannaDelete(notesItemList.findByUid(it.tag as Long))
       }
    }
 
-   private fun wannaDelete(){
+   private fun wannaDelete(item: NotesItem){
       val builder = AlertDialog.Builder(context!!)
       builder.setTitle("Confirmation")
          .setMessage("Do you really wanna delete the item \"${item?.title}\"?")
-         .setPositiveButton("Yes") { _, _ ->
-            deleteItem(items.indexOf(item))
-         }
+         .setPositiveButton("Yes") { _, _ -> deleteItem(notesItemList.indexOf(item))}
          .setNegativeButton("No") { _, _ -> }
          //.setNeutralButton("remind me later") { _, _ -> }
       val dialog = builder.create()
@@ -63,8 +57,8 @@ class NotesListAdapter(
    }
 
    private fun deleteItem (position: Int) {
-      listener.deleteClicked(items[position])
-      items.removeAt(position)
+      listener.itemDeleted(notesItemList[position])
+      notesItemList.removeAt(position)
       notifyDataSetChanged()
    }
 

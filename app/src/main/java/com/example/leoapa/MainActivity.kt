@@ -1,5 +1,6 @@
 package com.example.leoapa
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -17,7 +18,8 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
       const val ENTRY_RESULT = "EntryResult"
    }
 
-   private val shoppingItemsForDb = mutableListOf<ShoppingItemForDb>()
+
+   private val notesItemList = NotesItemList()//mutableListOf<NotesItem>()
 
    private val db get() = Database.getInstance(this)
 
@@ -26,13 +28,13 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
       setContentView(R.layout.activity_main)
 
       //load from database
-      shoppingItemsForDb.addAll(db.shoppingItemForDbDao().getAll())
+      notesItemList.addAll(db.notesItemDao().getAll())
 
       //setup adapter
       val adapter =
          NotesListAdapter(
             this,
-            shoppingItemsForDb
+            notesItemList
          )
       mainItemsGrd.adapter = adapter
 
@@ -41,13 +43,13 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
       staggLinearSwitch.setOnCheckedChangeListener { _, isChecked -> switchLayouts(isChecked) }
    }
 
-   fun onClickAddBtn() {
+   fun onClickAddBtn(v: View) {
       val name = itemEd.text.toString()
-      val itemNew = ShoppingItemForDb(
+      val itemNew = NotesItem(
          name,
          RandomData.randomLorem
       )
-      shoppingItemsForDb.add(0, itemNew) //RandomData.randomItem
+      notesItemList.add(0, itemNew) //RandomData.randomItem
 
       //repaints all elements
       //mainItemsGrd.adapter?.notifyDataSetChanged()
@@ -58,10 +60,10 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
       itemEd.setText(RandomData.randomTitle)
 
       //save to db
-      itemNew.uid = db.shoppingItemForDbDao().insertAll(itemNew).first()
+      itemNew.uid = db.notesItemDao().insertAll(itemNew).first()
    }
 
-   fun onClickSortBtn() {
+   fun onClickSortBtn(v: View) {
       //shoppingItems.sortedBy{view.transitionName}
    }
 
@@ -76,22 +78,40 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
       }
    }
 
-   override fun deleteClicked(item: ShoppingItemForDb) {
-      db.shoppingItemForDbDao().delete(item)
+   override fun itemDeleted(item: NotesItem) {
+      db.notesItemDao().delete(item)
+      Toast.makeText(this, "Operation Delete done with item: ${item.title}", Toast.LENGTH_LONG).show()
    }
 
-   fun onClickNewNote() {
+   override fun itemChanged(item: NotesItem) {
+      //db.notesItemDao().update(item)
+   }
+
+   override fun itemInserted(item: NotesItem) {
+      notesItemList.add(0, item)
+      mainItemsGrd.adapter?.notifyItemInserted(0) //0 - cause inserted at first positition (see above)
+      mainItemsGrd.smoothScrollToPosition(0) //as only first was repainted, view is still on previous position. This will scroll to first - newly inserted
+   }
+
+   fun onClickNewNote(v: View) {
       //val intent = Intent(this, NoteCardActivity::class.java)
       //startActivity(intent)
       val intent = Intent(this, NoteCardActivity::class.java)
+      intent.putExtra("DataItemMode", DataItemMode.dimInsert)
       startActivityForResult(intent, ENTRY_INTENT)
    }
 
    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
       super.onActivityResult(requestCode, resultCode, data)
-      if (requestCode == ENTRY_INTENT /*&& resultCode == Activity.RESULT_OK*/) {
+      if (requestCode == ENTRY_INTENT && resultCode == Activity.RESULT_OK) {
          data?.let {
-            Toast.makeText(this, "Note entry form result: ${data.getStringExtra(ENTRY_RESULT)}", Toast.LENGTH_LONG).show()
+            val dataItemModeReturned: DataItemMode = it.getSerializableExtra("DataItemMode") as DataItemMode
+            val itemReturned: NotesItem = it.getSerializableExtra("NotesItem") as NotesItem
+            Toast.makeText(this, "Operation ${dataItemModeReturned.userString} done with item: ${itemReturned.title}", Toast.LENGTH_LONG).show()
+            when (dataItemModeReturned){
+               DataItemMode.dimInsert -> itemInserted(itemReturned)
+               else -> TODO("not implemented yet")
+            }
          }
       }
    }
@@ -99,6 +119,9 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
 }
 
 interface AdapterEventListener{
-   fun deleteClicked(item: ShoppingItemForDb)
+   fun itemDeleted(item: NotesItem)
+   fun itemChanged(item: NotesItem)
+   fun itemInserted(item: NotesItem)
+
 }
 

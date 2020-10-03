@@ -3,44 +3,60 @@ package com.example.leoapa
 import android.content.Context
 import androidx.room.*
 import androidx.room.Database
+import java.io.Serializable
+import java.text.BreakIterator
 
-@Database(version = 1, entities = [ShoppingItemForDb::class])
+@Database(version = 1, entities = [NotesItem::class])
 abstract class NotesDatabase: RoomDatabase(){
-   abstract fun shoppingItemForDbDao(): ShoppingItemForDbDao
+   abstract fun notesItemDao(): NotesItemDao
+}
+
+public class NotesItemList : MutableList<NotesItem> by mutableListOf() {
+
+  fun findByUid(uid: Long): NotesItem{
+     var retValue: NotesItem? = null
+     this.forEach {
+        if (it.uid == uid) {
+           retValue = it
+           BreakIterator
+        }
+     }
+  }
 }
 
 object Database {
    private var instance: NotesDatabase? = null
-   fun getInstance(context: Context) = instance
-      ?: Room.databaseBuilder(
-      context.applicationContext, NotesDatabase::class.java, "shopping-db"
-   ).allowMainThreadQueries()
+   fun getInstance(context: Context) = instance?: Room.databaseBuilder(
+      context.applicationContext, NotesDatabase::class.java, "leo-notes-db").allowMainThreadQueries()
       .build()
       .also { instance = it }
 }
 
-@Entity(tableName = "shopping_item")
-data class ShoppingItemForDb(
+
+@Entity(tableName = "notes_item")
+data class NotesItem(
    val title: String,
    val text: String,
    @PrimaryKey(autoGenerate = true) var uid: Long = 0
-)
+): Serializable
 
 @Dao
-interface ShoppingItemForDbDao {
+interface NotesItemDao {
    @Insert
-   fun insertAll(vararg items: ShoppingItemForDb): List<Long>
+   fun insertAll(vararg items: NotesItem): List<Long>
 
-   @Query("SELECT * FROM shopping_item")
-   fun getAll(): List<ShoppingItemForDb>
+   @Query("SELECT * FROM notes_item")
+   fun getAll(): List<NotesItem>
 
-   @Query("SELECT * FROM shopping_item WHERE uid == :itemId")
-   fun getItemById(itemId: Long): ShoppingItemForDb
+   @Query("SELECT * FROM notes_item WHERE uid == :itemId")
+   fun getItemById(itemId: Long): NotesItem
 
    @Update
-   fun update(item: ShoppingItemForDb)
+   fun update(item: NotesItem)
 
    @Delete
-   fun delete(item: ShoppingItemForDb)
+   fun delete(item: NotesItem)
 }
 
+enum class DataItemMode(var userString: String) {
+   dimNone(""), dimView("View"), dimEdit("Edit"), dimInsert("Insert")}
