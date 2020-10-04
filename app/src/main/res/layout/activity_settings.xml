@@ -6,4 +6,52 @@
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
 
+    <TextView
+        android:id="@+id/linearStaggeredLb"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:gravity="center_vertical"
+        android:text="@string/linearStaggeredLb"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/languageLb"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:gravity="center_vertical"
+        android:text="@string/languageLb"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearStaggeredLb" />
+
+    <Spinner
+        android:id="@+id/langSel"
+        android:layout_width="0dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/languageLb"
+        app:layout_constraintTop_toBottomOf="@+id/staggLinearSwitch" />
+
+    <Switch
+        android:id="@+id/staggLinearSwitch"
+        android:layout_width="0dp"
+        android:layout_height="37dp"
+
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:checked="false"
+        android:text="@string/staggLinearSwitch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/linearStaggeredLb"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

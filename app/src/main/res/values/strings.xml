@@ -16,5 +16,7 @@
     <string name="noteTitleEd_hint">Enter a note\'s title</string>
     <string name="Yes">Yes</string>
     <string name="No">No</string>
+    <string name="linearStaggeredLb">Linear or staggered list</string>
+    <string name="languageLb">Language</string>
 
 </resources>

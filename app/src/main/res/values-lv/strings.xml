@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Leo Notes</string>
+    <string name="ImageBlablaDescr">Dzēst ierakstu</string>
+    <string name="titleLb">Nosaukums:</string>
+    <string name="noteLb">Piezīme:</string>
+    <string name="newNoteBtn">Jauna piezīme </string>
+    <string name="sortBtn">Šķirot</string>
+    <string name="staggLinearSwitch">Linear/Staggered</string>
+    <string name="msgOperationDone">Darbība %1$s veikta ar ierakstu: %2$s </string>
+    <string name="msgConfirmationTile">Apstiprinājums</string>
+    <string name="msgDeleteConfirmation">Vai tiešām vēlaties dzēst ierakstu: %1$s?</string>
+    <string name="opDelete">Dzēst</string>
+    <string name="opCancelled">Darbība atcelta</string>
+    <string name="cancelBtn">Atcelt</string>
+    <string name="noteEd_hint">Ievadiet piezīmes tekstu</string>
+    <string name="noteTitleEd_hint">Ievadiet piezīmes nosaukumu</string>
+    <string name="Yes">Jā</string>
+    <string name="No">Nē</string>
+    <string name="linearStaggeredLb">Viens zem otra</string>
+    <string name="languageLb">Valoda</string>
+
+</resources>

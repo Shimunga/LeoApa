@@ -19,23 +19,21 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
  //region variables, constants definition
    companion object {
       const val ENTRY_INTENT = 100
+      const val PREFERENCES_INTENT = 110
    }
    private val notesItemList = NotesItemList()//mutableListOf<NotesItem>()
    private val db get() = Database.getInstance(this)
-
-    lateinit var spinner: Spinner
-    lateinit var locale: Locale
-    private var currentLanguage = "en"
-    private var currentLang: String? = null
+   private var settings: Settings? = null
  //endregion
 
  //region functions, eventhandlers
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
       setContentView(R.layout.activity_main)
+      settings = Settings(this)
 
-     setupLanguage()
-     //load from database
+
+      //load from database
       notesItemList.addAll(db.notesItemDao().getAll())
 
       //setup adapter
@@ -44,34 +42,19 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
             this,
             notesItemList
          )
-      mainItemsGrd.adapter = adapter
-
-      staggLinearSwitch.setOnCheckedChangeListener { _, isChecked -> switchLayouts(isChecked) }
+     mainItemsGrd.adapter = adapter
+     applySettings();
    }
 
-    private fun setupLanguage() {
-        currentLanguage = intent.getStringExtra(currentLang).toString()
-        spinner = findViewById(R.id.langSel)
-        val list = ArrayList<String>()
-        list.add("Select Language")
-        list.add("English")
-        list.add("Latvian")
-        val adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, list)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                when (position) {
-                    0 -> {
-                    }
-                    1 -> setLocale("en")
-                    2 -> setLocale("lv")
-                }
-            }
-            override fun onNothingSelected(parent: AdapterView<*>) {}
-        }
-    }
+    private fun applySettings(){
+        switchLayouts(settings?.retrieveParamBool(AppParams.prmLayoutMode)!!)
+        //setLocale(settings?.retrieveParamString(AppParams.prmLang)!!)
+     }
 
+/*
+    lateinit var locale: Locale
+    private var currentLanguage = "en"
+    private var currentLang: String? = null
     private fun setLocale(localeName: String) {
         if (localeName != currentLanguage) {
             locale = Locale(localeName)
@@ -87,11 +70,10 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
             refresh.putExtra(currentLang, localeName)
             startActivity(refresh)
         } else {
-            Toast.makeText(
-                this@MainActivity, "Language, , already, , selected)!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this@MainActivity, "This language is already selected!", Toast.LENGTH_SHORT).show();
         }
     }
-
+*/
    private fun switchLayouts(isLinearStaggered: Boolean) {
       Log.v("Switch State=", "" + isLinearStaggered)
 
@@ -105,7 +87,7 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
 
    fun onClickOpenConfigBtn(v: View) {
        val intent = Intent(this, SettingsActivity::class.java)
-       startActivity(intent)
+       startActivityForResult(intent, PREFERENCES_INTENT)
    }
 
    fun onClickNewNote(v: View) {
@@ -116,22 +98,25 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
 
    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
       super.onActivityResult(requestCode, resultCode, data)
-      if (requestCode == ENTRY_INTENT && resultCode == Activity.RESULT_OK) {
-         data?.let {
-            val dataItemModeReturned: DataItemMode = it.getSerializableExtra("DataItemMode") as DataItemMode
-            val itemReturned: NotesItem = it.getSerializableExtra("NotesItem") as NotesItem
-            Toast.makeText(this, getString(R.string.msgOperationDone, dataItemModeReturned.userString, itemReturned.title), Toast.LENGTH_LONG).show()
-            when (dataItemModeReturned){
-                DataItemMode.dimInsert -> itemInserted(itemReturned)
-                DataItemMode.dimEdit -> itemEdited(itemReturned)
-                else -> TODO("not implemented yet")
-            }
-         }
-      }
-      else{
-         if (requestCode == ENTRY_INTENT && resultCode != Activity.RESULT_OK) {
+      if (requestCode == ENTRY_INTENT){
+          if (resultCode == Activity.RESULT_OK) {
+             data?.let {
+                val dataItemModeReturned: DataItemMode = it.getSerializableExtra("DataItemMode") as DataItemMode
+                val itemReturned: NotesItem = it.getSerializableExtra("NotesItem") as NotesItem
+                Toast.makeText(this, getString(R.string.msgOperationDone, dataItemModeReturned.userString, itemReturned.title), Toast.LENGTH_LONG).show()
+                when (dataItemModeReturned){
+                    DataItemMode.dimInsert -> itemInserted(itemReturned)
+                    DataItemMode.dimEdit -> itemEdited(itemReturned)
+                    else -> TODO("not implemented yet")
+                }
+             }
+          }else{
             Toast.makeText(this, getString(R.string.opCancelled), Toast.LENGTH_LONG).show()
          }
+      }else{
+          if (requestCode == PREFERENCES_INTENT){
+              applySettings()
+          }
       }
    }
     //endregion
