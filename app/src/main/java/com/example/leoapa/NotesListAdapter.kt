@@ -1,6 +1,5 @@
 package com.example.leoapa
 
-import android.app.Application
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -50,9 +49,9 @@ class NotesListAdapter(private val listener: AdapterEventListener, private val n
    private fun deleteWithConfirmation(item: NotesItem){
       val builder = AlertDialog.Builder(context!!)
       builder.setTitle(context?.getString(R.string.msgConfirmationTile))
-         .setMessage("Do you really wanna delete the item \"${item?.title}\"?")
-         .setPositiveButton("Yes") { _, _ -> deleteItem(item)}
-         .setNegativeButton("No") { _, _ -> }
+         .setMessage(context!!.getString(R.string.msgDeleteConfirmation, item?.title))
+         .setPositiveButton(context!!.getString(R.string.Yes)) { _, _ -> deleteItem(item)}
+         .setNegativeButton(context!!.getString(R.string.No)) { _, _ -> }
          //.setNeutralButton("remind me later") { _, _ -> }
       val dialog = builder.create()
       dialog.show()

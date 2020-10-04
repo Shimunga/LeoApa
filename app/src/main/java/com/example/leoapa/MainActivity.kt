@@ -5,11 +5,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 class MainActivity : AppCompatActivity(), AdapterEventListener {
  //region variables, constants definition
@@ -18,6 +22,11 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
    }
    private val notesItemList = NotesItemList()//mutableListOf<NotesItem>()
    private val db get() = Database.getInstance(this)
+
+    lateinit var spinner: Spinner
+    lateinit var locale: Locale
+    private var currentLanguage = "en"
+    private var currentLang: String? = null
  //endregion
 
  //region functions, eventhandlers
@@ -25,7 +34,8 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
       super.onCreate(savedInstanceState)
       setContentView(R.layout.activity_main)
 
-      //load from database
+     setupLanguage()
+     //load from database
       notesItemList.addAll(db.notesItemDao().getAll())
 
       //setup adapter
@@ -39,10 +49,53 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
       staggLinearSwitch.setOnCheckedChangeListener { _, isChecked -> switchLayouts(isChecked) }
    }
 
-   private fun switchLayouts(/*buttonView: CompoundButton, */isChecked: Boolean) {
-      Log.v("Switch State=", "" + isChecked)
+    private fun setupLanguage() {
+        currentLanguage = intent.getStringExtra(currentLang).toString()
+        spinner = findViewById(R.id.langSel)
+        val list = ArrayList<String>()
+        list.add("Select Language")
+        list.add("English")
+        list.add("Latvian")
+        val adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, list)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                when (position) {
+                    0 -> {
+                    }
+                    1 -> setLocale("en")
+                    2 -> setLocale("lv")
+                }
+            }
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+    }
 
-      if (isChecked) {
+    private fun setLocale(localeName: String) {
+        if (localeName != currentLanguage) {
+            locale = Locale(localeName)
+            val res = resources
+            val dm = res.displayMetrics
+            val conf = res.configuration
+            conf.locale = locale
+            res.updateConfiguration(conf, dm)
+            val refresh = Intent(
+                this,
+                MainActivity::class.java
+            )
+            refresh.putExtra(currentLang, localeName)
+            startActivity(refresh)
+        } else {
+            Toast.makeText(
+                this@MainActivity, "Language, , already, , selected)!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+   private fun switchLayouts(isLinearStaggered: Boolean) {
+      Log.v("Switch State=", "" + isLinearStaggered)
+
+      if (isLinearStaggered) {
          mainItemsGrd.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
       }else {
          mainItemsGrd.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -50,8 +103,9 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
       }
    }
 
-   fun onClickSortBtn(v: View) {
-      //shoppingItems.sortedBy{view.transitionName}
+   fun onClickOpenConfigBtn(v: View) {
+       val intent = Intent(this, SettingsActivity::class.java)
+       startActivity(intent)
    }
 
    fun onClickNewNote(v: View) {
