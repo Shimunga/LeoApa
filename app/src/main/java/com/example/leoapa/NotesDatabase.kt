@@ -34,8 +34,8 @@ object Database {
 
 @Entity(tableName = "notes_item")
 data class NotesItem(
-   val title: String,
-   val text: String,
+   var title: String,
+   var text: String,
    @PrimaryKey(autoGenerate = true) var uid: Long = 0
 ): Serializable
 

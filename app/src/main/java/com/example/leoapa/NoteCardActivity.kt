@@ -13,37 +13,39 @@ class NoteCardActivity : AppCompatActivity() {
 
     private val db get() = Database.getInstance(this)
     private var dataItemMode: DataItemMode = DataItemMode.dimNone
+    private var item: NotesItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_card)
         dataItemMode = intent.getSerializableExtra("DataItemMode") as DataItemMode
-
-        noteTitleEd.setText(RandomData.randomTitle)
-        noteEd.setText(RandomData.randomLorem)
+        when (dataItemMode){
+            DataItemMode.dimInsert -> {
+                noteTitleEd.setText(RandomData.randomTitle)
+                noteEd.setText(RandomData.randomLorem)
+            }
+            DataItemMode.dimEdit -> {
+                item = intent.getSerializableExtra("DataItem") as NotesItem
+                noteTitleEd.setText(item?.title)
+                noteEd.setText(item?.text)
+            }
+        }
     }
 
     fun onClickSaveNoteBtn(view: View) {
-        val itemNew = NotesItem(
-            noteTitleEd.text.toString(),
-            noteEd.text.toString()
-        )
-        //notesItemList.add(0, itemNew) //RandomData.randomItem
-
-        //repaints all elements
-        //mainItemsGrd.adapter?.notifyDataSetChanged()
-
-        //repaints only inserted at the position specified
-//        mainItemsGrd.adapter?.notifyItemInserted(0) //0 - cause inserted at frst postition (see above)
-//        mainItemsGrd.smoothScrollToPosition(0) //as only first was repainted, view is still on previous position. This will scroll to first - newly inserted
-//        itemEd.setText(RandomData.randomTitle)
+        item = item ?: NotesItem("", "", 0) //item initially will be null because of insert mode (in contrary edit mode when old data is available)
+        item?.title = noteTitleEd.text.toString()
+        item?.text = noteEd.text.toString()
 
         //save to db
-        itemNew.uid = db.notesItemDao().insertAll(itemNew).first()
+        when (dataItemMode) {
+            DataItemMode.dimInsert ->  item!!.uid = db.notesItemDao().insertAll(item!!).first()
+            DataItemMode.dimEdit ->  db.notesItemDao().update(item!!)
+        }
 
         val result = Intent().apply {
-            putExtra("NotesItem", itemNew)
             putExtra("DataItemMode", dataItemMode)
+            putExtra("NotesItem", item)
         }
         setResult(Activity.RESULT_OK, result)
         finish()

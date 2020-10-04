@@ -55,8 +55,6 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
    }
 
    fun onClickNewNote(v: View) {
-      //val intent = Intent(this, NoteCardActivity::class.java)
-      //startActivity(intent)
       val intent = Intent(this, NoteCardActivity::class.java)
       intent.putExtra("DataItemMode", DataItemMode.dimInsert)
       startActivityForResult(intent, ENTRY_INTENT)
@@ -70,8 +68,9 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
             val itemReturned: NotesItem = it.getSerializableExtra("NotesItem") as NotesItem
             Toast.makeText(this, "Operation ${dataItemModeReturned.userString} done with item: ${itemReturned.title}", Toast.LENGTH_LONG).show()
             when (dataItemModeReturned){
-               DataItemMode.dimInsert -> itemInserted(itemReturned)
-               else -> TODO("not implemented yet")
+                DataItemMode.dimInsert -> itemInserted(itemReturned)
+                DataItemMode.dimEdit -> itemEdited(itemReturned)
+                else -> TODO("not implemented yet")
             }
          }
       }
@@ -81,17 +80,28 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
          }
       }
    }
- //endregion
+    //endregion
 
  //region interface AdapterEventListener implementation
+    override fun openForEdit(item: NotesItem) {
+         val intent = Intent(this, NoteCardActivity::class.java)
+         intent.putExtra("DataItemMode", DataItemMode.dimEdit)
+         intent.putExtra("DataItem", item)
+         startActivityForResult(intent, ENTRY_INTENT)
+    }
+
    override fun itemDeleted(item: NotesItem) {
       db.notesItemDao().delete(item)
       Toast.makeText(this, "Operation Delete done with item: ${item.title}", Toast.LENGTH_LONG).show()
    }
 
-   override fun itemChanged(item: NotesItem) {
+   override fun itemEdited(item: NotesItem) {
       //db.notesItemDao().update(item)
-   }
+      val itm =  notesItemList.findByUid(item.uid)!!  //cannot use 'item' for udpate notify, because is's another instance not being contained in the list.
+      itm.title= item.title
+      itm.text = item.text
+      mainItemsGrd.adapter?.notifyItemChanged(notesItemList.indexOf(itm))
+    }
 
    override fun itemInserted(item: NotesItem) {
       notesItemList.add(0, item)
@@ -102,8 +112,9 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
 }
 
 interface AdapterEventListener{
+   fun openForEdit(item: NotesItem)
    fun itemDeleted(item: NotesItem)
-   fun itemChanged(item: NotesItem)
+   fun itemEdited(item: NotesItem)
    fun itemInserted(item: NotesItem)
 }
 

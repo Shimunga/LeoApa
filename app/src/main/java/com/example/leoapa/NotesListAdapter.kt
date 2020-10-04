@@ -4,8 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.note_list_card.view.*
 import kotlinx.android.synthetic.main.note_list_card.view.removeBtn as removeBtn1
@@ -34,37 +34,38 @@ class NotesListAdapter(private val listener: AdapterEventListener, private val n
       holder.itemView.titleTxt.text = currentItem?.title
       holder.itemView.descriptionTxt.text = currentItem?.text
       holder.itemView.removeBtn1.tag = currentItem!!.uid
+      holder.itemView.tag = currentItem!!.uid
 
       holder.itemView.setOnClickListener {
-         //openItemForEdit(notesItemList.findByUid(it.tag as Long)!!)
+         val tg = (it as CardView).tag
+         openForEdit(notesItemList.findByUid(tg as Long)!!) //it.tag as Long)!!
       }
 
       holder.itemView.removeBtn1.setOnClickListener{
-         wannaDelete(notesItemList.findByUid(it.tag as Long)!!)
+         deleteWithConfirmation(notesItemList.findByUid(it.tag as Long)!!)
       }
    }
 
-   private fun wannaDelete(item: NotesItem){
+   private fun deleteWithConfirmation(item: NotesItem){
       val builder = AlertDialog.Builder(context!!)
       builder.setTitle("Confirmation")
          .setMessage("Do you really wanna delete the item \"${item?.title}\"?")
-         .setPositiveButton("Yes") { _, _ -> deleteItem(notesItemList.indexOf(item))}
+         .setPositiveButton("Yes") { _, _ -> deleteItem(item)}
          .setNegativeButton("No") { _, _ -> }
          //.setNeutralButton("remind me later") { _, _ -> }
       val dialog = builder.create()
       dialog.show()
    }
 
-   private fun deleteItem (position: Int) {
-      listener.itemDeleted(notesItemList[position])
-      notesItemList.removeAt(position)
+   private fun deleteItem (item: NotesItem) {
+      listener.itemDeleted(item)
+      notesItemList.remove(item)
       notifyDataSetChanged()
    }
 
-   private fun openItemForEdit (position: Int) {
-//      notesItemList.removeAt(position)
-//      listener.itemDeleted(notesItemList[position])
-//      notifyDataSetChanged()
+   private fun openForEdit (item: NotesItem) {
+       listener.openForEdit(item)
+       //listener.itemEdited(item)
    }
 
  //endregion
