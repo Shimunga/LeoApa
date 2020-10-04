@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:onClick="onClickCancelBtn"
-        android:text="Cancel"
+        android:text="@string/cancelBtn"
         app:layout_constraintEnd_toStartOf="@+id/saveBtn"
         app:layout_constraintTop_toTopOf="@+id/saveBtn"
         />
@@ -28,7 +28,7 @@
         android:autofillHints=""
         android:ems="10"
         android:gravity="start|top"
-        android:hint="Enter a note's text"
+        android:hint="@string/noteEd_hint"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toTopOf="@+id/saveBtn"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,10 +69,11 @@
         android:autofillHints=""
         android:background="@drawable/edittext_bg"
         android:ems="10"
-        android:hint="Enter a note's title"
+        android:hint="@string/noteTitleEd_hint"
         android:inputType="textPersonName"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/titleLb"
         app:layout_constraintTop_toTopOf="@+id/titleLb" />
 

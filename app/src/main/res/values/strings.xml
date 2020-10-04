@@ -1,12 +1,16 @@
 <resources>
     <string name="app_name">Leo Notes</string>
-    <string name="AddBtn">Add</string>
     <string name="ImageBlablaDescr">Delete the item</string>
     <string name="titleLb">Title:</string>
     <string name="noteLb">Note text:</string>
     <string name="newNoteBtn">New note</string>
     <string name="sortBtn">Sort</string>
     <string name="staggLinearSwitch">Linear/Staggered</string>
-
-
+    <string name="msgOperationDone">Operation %1$s done with item: %2$s </string>
+    <string name="msgConfirmationTile">Confirmation</string>
+    <string name="opDelete">Delete</string>
+    <string name="opCancelled">Operation cancelled</string>
+    <string name="cancelBtn">Cancel</string>
+    <string name="noteEd_hint">Enter a note\'s text</string>
+    <string name="noteTitleEd_hint">Enter a note\'s title</string>
 </resources>

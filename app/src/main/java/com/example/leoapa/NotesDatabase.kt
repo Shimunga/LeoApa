@@ -58,4 +58,8 @@ interface NotesItemDao {
 }
 
 enum class DataItemMode(var userString: String) {
-   dimNone(""), dimView("View"), dimEdit("Edit"), dimInsert("Insert")}
+   dimNone(""),
+   dimView("View"),
+   dimEdit("Edit"),
+   dimInsert("Insert")
+}

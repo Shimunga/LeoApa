@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
          data?.let {
             val dataItemModeReturned: DataItemMode = it.getSerializableExtra("DataItemMode") as DataItemMode
             val itemReturned: NotesItem = it.getSerializableExtra("NotesItem") as NotesItem
-            Toast.makeText(this, "Operation ${dataItemModeReturned.userString} done with item: ${itemReturned.title}", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.msgOperationDone, dataItemModeReturned.userString, itemReturned.title), Toast.LENGTH_LONG).show()
             when (dataItemModeReturned){
                 DataItemMode.dimInsert -> itemInserted(itemReturned)
                 DataItemMode.dimEdit -> itemEdited(itemReturned)
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
       }
       else{
          if (requestCode == ENTRY_INTENT && resultCode != Activity.RESULT_OK) {
-            Toast.makeText(this, "Operation cancelled", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.opCancelled), Toast.LENGTH_LONG).show()
          }
       }
    }
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
 
    override fun itemDeleted(item: NotesItem) {
       db.notesItemDao().delete(item)
-      Toast.makeText(this, "Operation Delete done with item: ${item.title}", Toast.LENGTH_LONG).show()
+      Toast.makeText(this, getString(R.string.msgOperationDone, getString(R.string.opDelete), item.title), Toast.LENGTH_LONG).show()
    }
 
    override fun itemEdited(item: NotesItem) {
