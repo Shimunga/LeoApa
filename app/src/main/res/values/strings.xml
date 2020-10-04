@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">Leo Notes</string>
     <string name="AddBtn">Add</string>
-    <string name="ImageBlablaDescr">Bla bla</string>
+    <string name="ImageBlablaDescr">Delete the item</string>
     <string name="titleLb">Title:</string>
     <string name="noteLb">Note text:</string>
+    <string name="newNoteBtn">New note</string>
+    <string name="sortBtn">Sort</string>
+    <string name="staggLinearSwitch">Linear/Staggered</string>
 
 
 </resources>
