@@ -50,9 +50,7 @@ class NoteCardActivity : AppCompatActivity() {
     }
 
     fun onClickCancelBtn(view: View) {
-        val result = Intent().apply {
-            putExtra(MainActivity.ENTRY_RESULT, "Cancelled")
-        }
+        val result = Intent()
         setResult(Activity.RESULT_CANCELED, result)
         finish()
     }

@@ -13,14 +13,13 @@ abstract class NotesDatabase: RoomDatabase(){
 
 public class NotesItemList : MutableList<NotesItem> by mutableListOf() {
 
-  fun findByUid(uid: Long): NotesItem{
-     var retValue: NotesItem? = null
+  fun findByUid(uid: Long): NotesItem? {
      this.forEach {
         if (it.uid == uid) {
-           retValue = it
-           BreakIterator
+           return it
         }
      }
+     return null
   }
 }
 

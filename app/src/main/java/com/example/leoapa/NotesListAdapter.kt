@@ -12,9 +12,13 @@ import kotlinx.android.synthetic.main.note_list_card.view.removeBtn as removeBtn
 
 class NotesListAdapter(private val listener: AdapterEventListener, private val notesItemList: NotesItemList) : RecyclerView.Adapter<NotesListAdapter.NotesListViewHolder>()
 {
-
+ //region variables, constants definition
    class NotesListViewHolder(view: View) : RecyclerView.ViewHolder(view)
+   var context: Context? = null
+   var currentItem: NotesItem? = null
+ //endregion
 
+ //region functions, eventhandlers
    //Inflate layout and create view holder
    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesListViewHolder {
       val view= LayoutInflater.from(parent.context).inflate(R.layout.note_list_card, parent, false)
@@ -24,9 +28,6 @@ class NotesListAdapter(private val listener: AdapterEventListener, private val n
    // Need to return item count
    override fun getItemCount() = notesItemList.size
 
-   var context: Context? = null
-   var currentItem: NotesItem? = null
-
    override fun onBindViewHolder(holder: NotesListViewHolder, position: Int) {
       currentItem = notesItemList[position]
       context = holder.itemView.context
@@ -35,13 +36,11 @@ class NotesListAdapter(private val listener: AdapterEventListener, private val n
       holder.itemView.removeBtn1.tag = currentItem!!.uid
 
       holder.itemView.setOnClickListener {
-         Toast.makeText(context, currentItem?.title, Toast.LENGTH_SHORT).show()
+         //openItemForEdit(notesItemList.findByUid(it.tag as Long)!!)
       }
 
       holder.itemView.removeBtn1.setOnClickListener{
-
-         //wannaDelete(notesItemList[it.tag as Int]!!)
-         wannaDelete(notesItemList.findByUid(it.tag as Long))
+         wannaDelete(notesItemList.findByUid(it.tag as Long)!!)
       }
    }
 
@@ -62,4 +61,11 @@ class NotesListAdapter(private val listener: AdapterEventListener, private val n
       notifyDataSetChanged()
    }
 
+   private fun openItemForEdit (position: Int) {
+//      notesItemList.removeAt(position)
+//      listener.itemDeleted(notesItemList[position])
+//      notifyDataSetChanged()
+   }
+
+ //endregion
 }
