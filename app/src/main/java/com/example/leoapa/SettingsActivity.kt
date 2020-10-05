@@ -2,43 +2,57 @@ package com.example.leoapa
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.util.*
 
 class SettingsActivity : BaseActivity() {
-    //private var settings: Settings? = null
     lateinit var spinner: Spinner
     private var isSpinerSetup: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-      //  settings = Settings(this)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         setupLanguage()
 
         staggLinearSwitch.setOnCheckedChangeListener { _, isLinearStaggered ->
             setLayoutModeSetting(isLinearStaggered)}
+        themeSwitch.setOnCheckedChangeListener { _, isNight ->
+            setThemeSetting(isNight)}
 
-        applySettings()
+        applySettingsOnStart()
     }
 
     private fun setLayoutModeSetting(isLinearStaggered: Boolean){
-        settings?.saveParam(AppParams.prmLayoutMode, isLinearStaggered)
-        staggLinearSwitch.isChecked = settings?.retrieveParamBool(AppParams.prmLayoutMode)!!
+        if(!staggLinearSwitch.isPressed()) { return } //no need to fire event when setting up controls when view opening
 
+        settings?.saveParam(AppParams.prmLayoutMode, isLinearStaggered)
+        //nothing to do because this setting will be used in other activity
     }
 
-    private fun applySettings(){
+    private fun setThemeSetting(isNight: Boolean){
+        if(!themeSwitch.isPressed()) { return } //no need to fire event when setting up controls when view opening
+
+        settings?.saveParam(AppParams.prmTheme, isNight)
+
+        UIutils.showInfo(this, getString(R.string.msgThemeChangeConfirmation))
+    }
+
+    private fun applySettingsOnStart(){
         staggLinearSwitch.isChecked = settings?.retrieveParamBool(AppParams.prmLayoutMode)!!
 
         isSpinerSetup = true
         spinner.setSelection(UIutils.getSpinnerIndexByString(spinner, settings?.retrieveParamString(AppParams.prmLang)!!));
+
+        themeSwitch.isChecked = settings?.retrieveParamBool(AppParams.prmTheme)!!
     }
 
     private fun setupLanguage() {
@@ -77,12 +91,7 @@ class SettingsActivity : BaseActivity() {
             return
         }
 
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(this.getString(R.string.msgInformationTile))
-            .setMessage(this.getString(R.string.msgLangChangeConfirmation))
-            .setPositiveButton(this.getString(R.string.Ok)) { _, _ -> }
-        val dialog = builder.create()
-        dialog.show()
+        UIutils.showInfo(this, this.getString(R.string.msgLangChangeConfirmation))
 
 //        val intent = Intent(this, MainActivity::class.java)
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -94,5 +103,13 @@ class SettingsActivity : BaseActivity() {
 //        finish()
 //        startActivity(intent)
     }
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.getItemId()) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
  }

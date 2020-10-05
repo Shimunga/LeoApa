@@ -22,5 +22,7 @@
     <string name="msgInformationTile">Informācija</string>
     <string name="Ok">Ok</string>
     <string name="msgLangChangeConfirmation">Ir mainīta lietotnes valoda! Restarējiet lietotni, lai izmaiņas stātos spēkā.</string>
+    <string name="msgThemeChangeConfirmation">Ir mainīta lietotnes vizuālā tēma! Restarējiet lietotni, lai izmaiņas stātos spēkā.</string>
+    <string name="themeLb">Night mode</string>
 
 </resources>

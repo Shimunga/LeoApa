@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    >
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mainItemsGrd"
@@ -21,7 +22,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newNoteBtn"
-        tools:listitem="@layout/note_list_card" />
+        tools:listitem="@layout/note_list_card"
+        />
 
     <Button
         android:id="@+id/newNoteBtn"
@@ -32,7 +34,7 @@
         android:onClick="onClickNewNote"
         android:text="@string/newNoteBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageButton
         android:id="@+id/openConfigBtn"
@@ -44,6 +46,6 @@
         android:onClick="onClickOpenConfigBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_construction_24px" />
+        app:srcCompat="@drawable/ic_construction_24px"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

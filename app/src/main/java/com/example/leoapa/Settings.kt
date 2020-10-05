@@ -6,7 +6,8 @@ import android.content.SharedPreferences
 
 public enum class AppParams(var userString: String) {
     prmLayoutMode("LAYOUT_STYLE_PARAM"),
-    prmLang("LANGUAGE_PARAM")
+    prmLang("LANGUAGE_PARAM"),
+    prmTheme("THEME_PARAM")
 }
 
 public class Settings(context: Context) {

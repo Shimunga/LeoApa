@@ -22,5 +22,7 @@
     <string name="msgInformationTile">Information</string>
     <string name="Ok">Ok</string>
     <string name="msgLangChangeConfirmation">You changed the app\'s language! Restart the app to apply changes.</string>
+    <string name="themeLb">Night mode</string>
+    <string name="msgThemeChangeConfirmation">You changed the app\'s visual theme! Restart the app to apply changes.</string>
 
 </resources>
