@@ -9,7 +9,7 @@ import android.util.Log
 import android.view.View
 import kotlinx.android.synthetic.main.activity_note_card.*
 
-class NoteCardActivity : AppCompatActivity() {
+class NoteCardActivity : BaseActivity() {
 
     private val db get() = Database.getInstance(this)
     private var dataItemMode: DataItemMode = DataItemMode.dimNone

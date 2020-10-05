@@ -18,11 +18,12 @@
         />
 
     <EditText
+        android:background="@drawable/edittext_bg"
         android:id="@+id/noteEd"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
         android:autofillHints=""
@@ -30,13 +31,13 @@
         android:gravity="start|top"
         android:hint="@string/noteEd_hint"
         android:inputType="textMultiLine"
+        android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@+id/saveBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noteLb"
-        android:background="@drawable/edittext_bg"
-        android:padding="10dp"
-
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         />
 
     <TextView
@@ -48,7 +49,7 @@
         android:gravity="center_vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleLb"
-        android:text="@string/noteLb" />
+        android:text="@string/noteLb"/>
 
     <TextView
         android:id="@+id/titleLb"
@@ -88,5 +89,6 @@
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,35 +1,8 @@
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
-<!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
-<!--        <item name="colorAccent">@color/colorAccent</item>-->
-<!--        <item name="android:statusBarColor">@android:color/black</item>-->
-<!--        <item name="textAppearanceButton">@style/GreenText.Bold</item>-->
     </style>
 
-
-<!--    <style name="GreenText" parent="TextAppearance.AppCompat">-->
-<!--        <item name="android:textColor">#00FF00</item>-->
-<!--        <item name="android:textSize">50sp</item>-->
-<!--    </style>-->
-
-<!--    <style name="GreenText.Bold">-->
-<!--        <item name="android:textStyle">italic</item>-->
-<!--    </style>-->
-
-
-<!--    <style name="AppTheme.Dark" parent="ThemeOverlay.AppCompat.Dark">-->
-<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
-<!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
-<!--        <item name="colorAccent">@color/colorAccent</item>-->
-<!--        <item name="android:statusBarColor">@android:color/black</item>-->
-<!--        <item name="textAppearanceButton">@style/GreenText.Bold</item>-->
-<!--    </style>-->
-
-
-<!--    <style name="AppTheme.ListPage">-->
-<!--        <item name="android:textColor">#F9044E</item>-->
-<!--        <item name="android:textSize">10sp</item>-->
-<!--    </style>-->
-
+    <style name="ThemeOverlay.AppCompat.Dark.Leoapa" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColorPrimary">#F9044E</item>
+    </style>
 </resources>

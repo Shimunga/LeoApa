@@ -19,7 +19,7 @@ open class BaseActivity : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         if (dNightTheme) {
-            setTheme(R.style.ThemeOverlay_AppCompat_Dark)
+            setTheme(R.style.ThemeOverlay_AppCompat_Dark_Leoapa)
         }else{
             setTheme(R.style.ThemeOverlay_AppCompat_DayNight)
         }
