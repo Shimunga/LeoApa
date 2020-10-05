@@ -18,5 +18,9 @@
     <string name="No">Nē</string>
     <string name="linearStaggeredLb">Viens zem otra</string>
     <string name="languageLb">Valoda</string>
+    <string name="SelectLanguage">Izvēlieties valodu</string>
+    <string name="msgInformationTile">Informācija</string>
+    <string name="Ok">Ok</string>
+    <string name="msgLangChangeConfirmation">Ir mainīta lietotnes valoda! Restarējiet lietotni, lai izmaiņas stātos spēkā.</string>
 
 </resources>

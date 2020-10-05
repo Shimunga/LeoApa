@@ -18,5 +18,9 @@
     <string name="No">No</string>
     <string name="linearStaggeredLb">Linear or staggered list</string>
     <string name="languageLb">Language</string>
+    <string name="SelectLanguage">Select language</string>
+    <string name="msgInformationTile">Information</string>
+    <string name="Ok">Ok</string>
+    <string name="msgLangChangeConfirmation">You changed the app\'s language! Restart the app to apply changes.</string>
 
 </resources>

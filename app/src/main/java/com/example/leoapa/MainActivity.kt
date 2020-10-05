@@ -5,17 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 
-class MainActivity : AppCompatActivity(), AdapterEventListener {
+class MainActivity : BaseActivity(), AdapterEventListener {
  //region variables, constants definition
    companion object {
       const val ENTRY_INTENT = 100
@@ -23,14 +18,12 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
    }
    private val notesItemList = NotesItemList()//mutableListOf<NotesItem>()
    private val db get() = Database.getInstance(this)
-   private var settings: Settings? = null
  //endregion
 
  //region functions, eventhandlers
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
       setContentView(R.layout.activity_main)
-      settings = Settings(this)
 
 
       //load from database
@@ -51,29 +44,6 @@ class MainActivity : AppCompatActivity(), AdapterEventListener {
         //setLocale(settings?.retrieveParamString(AppParams.prmLang)!!)
      }
 
-/*
-    lateinit var locale: Locale
-    private var currentLanguage = "en"
-    private var currentLang: String? = null
-    private fun setLocale(localeName: String) {
-        if (localeName != currentLanguage) {
-            locale = Locale(localeName)
-            val res = resources
-            val dm = res.displayMetrics
-            val conf = res.configuration
-            conf.locale = locale
-            res.updateConfiguration(conf, dm)
-            val refresh = Intent(
-                this,
-                MainActivity::class.java
-            )
-            refresh.putExtra(currentLang, localeName)
-            startActivity(refresh)
-        } else {
-            Toast.makeText(this@MainActivity, "This language is already selected!", Toast.LENGTH_SHORT).show();
-        }
-    }
-*/
    private fun switchLayouts(isLinearStaggered: Boolean) {
       Log.v("Switch State=", "" + isLinearStaggered)
 

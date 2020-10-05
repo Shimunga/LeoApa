@@ -9,12 +9,12 @@ public enum class AppParams(var userString: String) {
     prmLang("LANGUAGE_PARAM")
 }
 
-public class Settings(activity: Activity) {
+public class Settings(context: Context) {
     companion object {
         const val PREFERENCES_FILE = "leoapa_preferences"
     }
 
-    private val contextActivity = activity
+    private val contextActivity = context
     private val preferences: SharedPreferences = contextActivity.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE)
 
     init {
