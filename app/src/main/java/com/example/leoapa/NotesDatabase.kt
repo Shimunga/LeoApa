@@ -31,12 +31,16 @@ object Database {
       .also { instance = it }
 }
 
-
 @Entity(tableName = "notes_item")
 data class NotesItem(
    var title: String,
    var text: String,
-   @PrimaryKey(autoGenerate = true) var uid: Long = 0
+
+   @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+   var img: ByteArray? = null,
+
+   @PrimaryKey(autoGenerate = true)
+   var uid: Long = 0
 ): Serializable
 
 @Dao

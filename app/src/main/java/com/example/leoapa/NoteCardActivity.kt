@@ -1,55 +1,86 @@
 package com.example.leoapa
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.activity_note_card.*
+import kotlinx.android.synthetic.main.activity_note_card.view.*
+import java.io.ByteArrayOutputStream
 
 class NoteCardActivity : BaseActivity() {
 
     private val db get() = Database.getInstance(this)
-    private var dataItemMode: DataItemMode = DataItemMode.dimInsert
+    private var dataItemMode: DataItemMode = DataItemMode.dimNone
     private var item: NotesItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_card)
 
-        if (intent.getSerializableExtra("DataItemMode") != null) { //in case if not called from MainActivity, eg. share comes in
-            dataItemMode = (intent.getSerializableExtra("DataItemMode") as DataItemMode)
-        }
-
         when {
             intent?.action == Intent.ACTION_SEND -> {
-                if ("text/plain" == intent.type) {
-                    intent.getStringExtra(Intent.EXTRA_SUBJECT)?.let {noteTitleEd.setText(it)}
-                    intent.getStringExtra(Intent.EXTRA_TEXT)?.let {noteEd.setText(it)}
-                }
+                processShareRequest()
             }
             else -> {
-                when (dataItemMode){
-                    DataItemMode.dimInsert -> {
-                        noteTitleEd.setText(RandomData.randomTitle)
-                        noteEd.setText(RandomData.randomLorem)
-                    }
-                    DataItemMode.dimEdit -> {
-                        item = intent.getSerializableExtra("DataItem") as NotesItem
-                        noteTitleEd.setText(item?.title)
-                        noteEd.setText(item?.text)
-                    }
+                if (intent.getSerializableExtra("DataItemMode") != null) { //in case if not called from MainActivity, eg. share request, then no such serializableExtra exists
+                    dataItemMode = (intent.getSerializableExtra("DataItemMode") as DataItemMode)
                 }
+                fillDataFields()
             }
         }
     }
+    private fun processShareRequest(){
+        if ("text/plain" == intent.type) {
+            dataItemMode = DataItemMode.dimInsert
+            intent.getStringExtra(Intent.EXTRA_SUBJECT)?.let {noteTitleEd.setText(it)}
+            intent.getStringExtra(Intent.EXTRA_TEXT)?.let {noteEd.setText(it)}
+        }
+    }
+
+    private fun fillDataFields(){
+        when (dataItemMode){
+            DataItemMode.dimInsert -> {
+                noteTitleEd.setText(RandomData.randomTitle)
+                noteEd.setText(RandomData.randomLorem)
+            }
+            DataItemMode.dimEdit -> {
+                item = intent.getSerializableExtra("DataItem") as NotesItem
+                noteTitleEd.setText(item?.title)
+                noteEd.setText(item?.text)
+                if (item?.img != null) {
+                    val options = BitmapFactory.Options()
+                    val bitmap = BitmapFactory.decodeByteArray(item?.img, 0, item?.img?.size!!, options)
+                    imageEd.setImageBitmap(bitmap)
+                }
+            }
+        }
+        setupUI()
+    }
 
     fun onClickSaveNoteBtn(view: View) {
-        item = item ?: NotesItem("", "", 0) //item initially will be null because of insert mode (in contrary edit mode when old data is available)
+        item = item ?: NotesItem("", "" ) //item initially will be null because of insert mode (in contrary edit mode when old data is available)
         item?.title = noteTitleEd.text.toString()
         item?.text = noteEd.text.toString()
+
+        if (imageEd.drawable != null) {
+            val stream = ByteArrayOutputStream()
+            (imageEd.drawable as BitmapDrawable).bitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream)
+            item?.img = stream.toByteArray()
+        }else{
+            item?.img = null
+        }
 
         //save to db
         when (dataItemMode) {
@@ -80,4 +111,79 @@ class NoteCardActivity : BaseActivity() {
         }
         startActivity(sendIntent)
     }
+
+    //image--------------------------------------------
+companion object {
+    //image pick code
+    private const val IMAGE_PICK_CODE = 1000
+
+        //Permission code
+    private const val PERMISSION_CODE = 1001
+    }
+    fun onClickLoadImageBtn(view: View) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_DENIED){
+                //permission denied
+                val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                //show popup to request runtime permission
+                requestPermissions(permissions, PERMISSION_CODE)
+            }
+            else{
+                //permission already granted
+                pickImageFromGallery()
+            }
+        }
+        else{
+            //system OS is < Marshmallow
+            pickImageFromGallery()
+        }
+    }
+
+    //handle requested permission result
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when(requestCode){
+            PERMISSION_CODE -> {
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    //permission from popup granted
+                    pickImageFromGallery()
+                }
+                else{
+                    //permission from popup denied
+                    Toast.makeText(this, getString(R.string.msgInfoPermissionDenied), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+    private fun pickImageFromGallery() {
+        //Intent to pick image
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_PICK_CODE)
+    }
+
+    //handle result of picked image
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE){
+            imageEd.setImageURI(data?.data)
+            setupUI()
+        }
+    }
+
+    fun onClickDeleteImageBtn(view: View) {
+        if ((dataItemMode == DataItemMode.dimInsert || dataItemMode == DataItemMode.dimEdit) && (imageEd.drawable != null)){
+            imageEd.setImageDrawable(null)
+            setupUI()
+        }
+
+    }
+    private fun setupUI(){
+        if ((dataItemMode == DataItemMode.dimInsert || dataItemMode == DataItemMode.dimEdit) && imageEd.drawable != null) {
+            deleteImageBtn.visibility = View.VISIBLE
+        }else{
+            deleteImageBtn.visibility = View.GONE
+        }
+    }
+//----------------------------------------------------
 }

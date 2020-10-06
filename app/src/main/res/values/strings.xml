@@ -24,5 +24,6 @@
     <string name="msgLangChangeConfirmation">You changed the app\'s language! Restart the app to apply changes.</string>
     <string name="themeLb">Night mode</string>
     <string name="msgThemeChangeConfirmation">You changed the app\'s visual theme! Restart the app to apply changes.</string>
+    <string name="msgInfoPermissionDenied">Permission denied</string>
 
 </resources>

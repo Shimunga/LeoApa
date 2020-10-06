@@ -24,5 +24,6 @@
     <string name="msgLangChangeConfirmation">Ir mainīta lietotnes valoda! Restarējiet lietotni, lai izmaiņas stātos spēkā.</string>
     <string name="msgThemeChangeConfirmation">Ir mainīta lietotnes vizuālā tēma! Restarējiet lietotni, lai izmaiņas stātos spēkā.</string>
     <string name="themeLb">Night mode</string>
+    <string name="msgInfoPermissionDenied">Permission denied</string>
 
 </resources>

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.note_list_card.view.*
 import kotlinx.android.synthetic.main.note_list_card.view.removeBtn as removeBtn1
 
+
 class NotesListAdapter(private val listener: AdapterEventListener, private val notesItemList: NotesItemList) : RecyclerView.Adapter<NotesListAdapter.NotesListViewHolder>()
 {
  //region variables, constants definition
