@@ -12,22 +12,36 @@ import kotlinx.android.synthetic.main.activity_note_card.*
 class NoteCardActivity : BaseActivity() {
 
     private val db get() = Database.getInstance(this)
-    private var dataItemMode: DataItemMode = DataItemMode.dimNone
+    private var dataItemMode: DataItemMode = DataItemMode.dimInsert
     private var item: NotesItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_card)
-        dataItemMode = intent.getSerializableExtra("DataItemMode") as DataItemMode
-        when (dataItemMode){
-            DataItemMode.dimInsert -> {
-                noteTitleEd.setText(RandomData.randomTitle)
-                noteEd.setText(RandomData.randomLorem)
+
+        if (intent.getSerializableExtra("DataItemMode") != null) { //in case if not called from MainActivity, eg. share comes in
+            dataItemMode = (intent.getSerializableExtra("DataItemMode") as DataItemMode)
+        }
+
+        when {
+            intent?.action == Intent.ACTION_SEND -> {
+                if ("text/plain" == intent.type) {
+                    intent.getStringExtra(Intent.EXTRA_SUBJECT)?.let {noteTitleEd.setText(it)}
+                    intent.getStringExtra(Intent.EXTRA_TEXT)?.let {noteEd.setText(it)}
+                }
             }
-            DataItemMode.dimEdit -> {
-                item = intent.getSerializableExtra("DataItem") as NotesItem
-                noteTitleEd.setText(item?.title)
-                noteEd.setText(item?.text)
+            else -> {
+                when (dataItemMode){
+                    DataItemMode.dimInsert -> {
+                        noteTitleEd.setText(RandomData.randomTitle)
+                        noteEd.setText(RandomData.randomLorem)
+                    }
+                    DataItemMode.dimEdit -> {
+                        item = intent.getSerializableExtra("DataItem") as NotesItem
+                        noteTitleEd.setText(item?.title)
+                        noteEd.setText(item?.text)
+                    }
+                }
             }
         }
     }
@@ -55,5 +69,15 @@ class NoteCardActivity : BaseActivity() {
         val result = Intent()
         setResult(Activity.RESULT_CANCELED, result)
         finish()
+    }
+
+    fun onClickShareBtn(view: View) {
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_SUBJECT, noteTitleEd.text.toString())
+            putExtra(Intent.EXTRA_TEXT, noteEd.text.toString())
+            type = "text/plain"
+        }
+        startActivity(sendIntent)
     }
 }

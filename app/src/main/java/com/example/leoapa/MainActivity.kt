@@ -37,6 +37,7 @@ class MainActivity : BaseActivity(), AdapterEventListener {
          )
      mainItemsGrd.adapter = adapter
      applySettings();
+
    }
 
     private fun applySettings(){
