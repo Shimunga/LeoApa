@@ -77,8 +77,10 @@ class NoteCardActivity : BaseActivity() {
         when (dataItemMode){
             DataItemMode.dimInsert -> {
                 //in insert mode, for sake of test simplicity, generate data for some fields
-                noteTitleEd.setText(RandomData.randomTitle)
-                noteEd.setText(RandomData.randomLorem)
+                if (settings?.retrieveParamBool(AppParams.prmRandomData) == true) {
+                    noteTitleEd.setText(RandomData.randomTitle)
+                    noteEd.setText(RandomData.randomLorem)
+                }
             }
             DataItemMode.dimEdit -> {
                 //in edit mode looks in intent's extra for an item

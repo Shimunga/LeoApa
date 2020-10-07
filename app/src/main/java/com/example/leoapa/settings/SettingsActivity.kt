@@ -12,6 +12,16 @@ import kotlinx.android.synthetic.main.activity_settings.*
 import java.util.*
 
 /**
+ * All settings are numerated in AppParams
+ */
+enum class AppParams(var userString: String) {
+    prmLayoutMode("LAYOUT_STYLE_PARAM"), //list visualisation mode
+    prmLang("LANGUAGE_PARAM"), //current language chosen
+    prmTheme("THEME_PARAM"), //day/night theme
+    prmRandomData("RANDOM_PARAM") //testa random data on new item
+}
+
+/**
  * The class contains UI controls for changing app's settings
  */
 class SettingsActivity : BaseActivity() {
@@ -37,6 +47,10 @@ class SettingsActivity : BaseActivity() {
         //define event handler for day/night style change
         themeSwitch.setOnCheckedChangeListener { _, isNight ->
             setThemeSetting(isNight)}
+
+        //define event handler for items list visualisation style change
+        randomDataSwitch.setOnCheckedChangeListener { _, isRandom ->
+            setRandomDataSetting(isRandom)}
 
         applySettingsOnStart()
     }
@@ -65,6 +79,17 @@ class SettingsActivity : BaseActivity() {
     }
 
     /**
+     * The function saves list visualisation mode to prefs.
+     * @param isLinearStaggered true - linear (classic list) style, false - staggered cards
+     */
+    private fun setRandomDataSetting(isRandom: Boolean){
+        if(!randomDataSwitch.isPressed()) { return } //no need to fire event when setting up controls when view opening
+
+        settings?.saveParam(AppParams.prmRandomData, isRandom)
+        //nothing to do because this setting will be used in other activity
+    }
+
+    /**
      * The functions applies the earlier saved settings to UI controls in order to depict current state
      */
     private fun applySettingsOnStart(){
@@ -74,6 +99,7 @@ class SettingsActivity : BaseActivity() {
         spinner.setSelection(UIutils.getSpinnerIndexByString(spinner, settings?.retrieveParamString(AppParams.prmLang)!!));
 
         themeSwitch.isChecked = settings?.retrieveParamBool(AppParams.prmTheme)!!
+        randomDataSwitch.isChecked = settings?.retrieveParamBool(AppParams.prmRandomData)!!
     }
 
     /**

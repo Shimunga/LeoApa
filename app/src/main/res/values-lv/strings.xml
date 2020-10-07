@@ -5,7 +5,8 @@
     <string name="noteLb">Piezīme:</string>
     <string name="newNoteBtn">Jauna piezīme </string>
     <string name="sortBtn">Šķirot</string>
-    <string name="staggLinearSwitch">Linear/Staggered</string>
+    <string name="staggLinearSwitch">Viena zem otras</string>
+    <string name="randomDataSwitch">Ģenerēt datus jaunai piezīmei</string>
     <string name="msgOperationDone">Darbība %1$s veikta ar ierakstu: %2$s </string>
     <string name="msgConfirmationTile">Apstiprinājums</string>
     <string name="msgDeleteConfirmation">Vai tiešām vēlaties dzēst ierakstu: %1$s?</string>

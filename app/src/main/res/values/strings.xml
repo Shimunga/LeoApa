@@ -5,7 +5,8 @@
     <string name="noteLb">Note text:</string>
     <string name="newNoteBtn">New note</string>
     <string name="sortBtn">Sort</string>
-    <string name="staggLinearSwitch">Linear/Staggered</string>
+    <string name="staggLinearSwitch">Show items linear</string>
+    <string name="randomDataSwitch">Random data on new note</string>
     <string name="msgOperationDone">Operation %1$s done with item: %2$s </string>
     <string name="msgConfirmationTile">Confirmation</string>
     <string name="msgDeleteConfirmation">Do you really wanna delete the item %1$s?</string>

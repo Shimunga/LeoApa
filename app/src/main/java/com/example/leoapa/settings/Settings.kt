@@ -4,16 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 
-
-/**
- * All settings are numerated in AppParams
- */
-enum class AppParams(var userString: String) {
-    prmLayoutMode("LAYOUT_STYLE_PARAM"), //list visualisation mode
-    prmLang("LANGUAGE_PARAM"), //current language chosen
-    prmTheme("THEME_PARAM") //day/night theme
-}
-
 /**
  * The class contains save/retrieve functions for app's params
  */

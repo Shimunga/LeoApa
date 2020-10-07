@@ -11,7 +11,7 @@
         android:layout_width="104dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:text="@string/titleLb"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,7 @@
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:text="@string/noteLb"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,11 +47,11 @@
 
     <EditText
         android:id="@+id/noteEd"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_width="312dp"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:autofillHints=""
         android:background="@drawable/edittext_bg"
         android:ems="10"
@@ -59,20 +59,20 @@
         android:hint="@string/noteEd_hint"
         android:inputType="textMultiLine"
         android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/saveBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noteLb" />
 
     <ImageView
         android:id="@+id/imageEd"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/noteEd"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/noteEd"
+        app:layout_constraintStart_toEndOf="@+id/noteEd"
+        app:layout_constraintTop_toTopOf="@+id/noteEd"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <ImageButton
@@ -127,7 +127,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:onClick="onClickSaveNoteBtn"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"

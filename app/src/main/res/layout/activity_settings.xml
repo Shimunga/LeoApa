@@ -7,11 +7,35 @@
     tools:context=".SettingsActivity">
 
     <TextView
+        android:id="@+id/randomDataLb"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:text="@string/randomDataSwitch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/themeLb" />
+
+    <Switch
+        android:id="@+id/randomDataSwitch"
+        android:layout_width="0dp"
+        android:layout_height="37dp"
+
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:checked="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/linearStaggeredLb"
+        app:layout_constraintTop_toTopOf="@+id/randomDataLb" />
+
+    <TextView
         android:id="@+id/themeLb"
         android:layout_width="160dp"
         android:layout_height="40dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:gravity="center_vertical"
         android:text="@string/themeLb"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,19 +47,18 @@
         android:layout_height="37dp"
 
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:checked="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/themeLb"
-        app:layout_constraintTop_toBottomOf="@+id/langSel" />
+        app:layout_constraintTop_toTopOf="@+id/themeLb" />
 
     <TextView
         android:id="@+id/linearStaggeredLb"
         android:layout_width="160dp"
         android:layout_height="40dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:gravity="center_vertical"
         android:text="@string/staggLinearSwitch"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +69,7 @@
         android:layout_width="160dp"
         android:layout_height="40dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:gravity="center_vertical"
         android:text="@string/languageLb"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,12 +80,11 @@
         android:layout_width="0dp"
         android:layout_height="41dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/languageLb"
-        app:layout_constraintTop_toBottomOf="@+id/staggLinearSwitch" />
+        app:layout_constraintTop_toTopOf="@+id/languageLb" />
 
     <Switch
         android:id="@+id/staggLinearSwitch"
@@ -70,11 +92,10 @@
         android:layout_height="37dp"
 
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:checked="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/linearStaggeredLb"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/linearStaggeredLb" />
 </androidx.constraintlayout.widget.ConstraintLayout>
