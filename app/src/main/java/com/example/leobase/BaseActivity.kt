@@ -1,10 +1,11 @@
-package com.example.leoapa
+package com.example.leobase
 
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.ContextThemeWrapper
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_settings.*
+import com.example.leoapa.R
+import com.example.leoapa.Settings
 import java.util.*
 
 open class BaseActivity : AppCompatActivity() {
@@ -26,7 +27,7 @@ open class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
     }
     fun updateConfig(wrapper: ContextThemeWrapper) {
-        if(dLocale==Locale("") ) // Do nothing if dLocale is null
+        if(dLocale ==Locale("") ) // Do nothing if dLocale is null
             return
 
         Locale.setDefault(dLocale)

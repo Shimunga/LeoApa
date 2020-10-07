@@ -1,8 +1,9 @@
-package com.example.leoapa
+package com.example.leobase
 
 import android.content.Context
 import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
+import com.example.leoapa.R
 
 class UIutils {
     companion object{

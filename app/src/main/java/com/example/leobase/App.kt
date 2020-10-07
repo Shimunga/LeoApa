@@ -1,6 +1,8 @@
-package com.example.leoapa
+package com.example.leobase
 
 import android.app.Application
+import com.example.leoapa.AppParams
+import com.example.leoapa.Settings
 import java.util.*
 
 class App : Application() {
@@ -14,6 +16,8 @@ class App : Application() {
         val lng = settings.retrieveParamString(AppParams.prmLang)
 
         BaseActivity.dLocale = Locale(lng) //set any locale you want here
-        BaseActivity.dNightTheme = settings.retrieveParamBool(AppParams.prmTheme)
+        BaseActivity.dNightTheme = settings.retrieveParamBool(
+            AppParams.prmTheme
+        )
     }
 }

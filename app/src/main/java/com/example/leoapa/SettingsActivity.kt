@@ -1,14 +1,13 @@
 package com.example.leoapa
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatDelegate
+import com.example.leobase.BaseActivity
+import com.example.leobase.UIutils
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.util.*
 
