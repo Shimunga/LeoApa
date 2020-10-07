@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -74,13 +75,7 @@ class NoteCardActivity : BaseActivity() {
         item?.title = noteTitleEd.text.toString()
         item?.text = noteEd.text.toString()
 
-        if (imageEd.drawable != null) {
-            val stream = ByteArrayOutputStream()
-            (imageEd.drawable as BitmapDrawable).bitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream)
-            item?.img = stream.toByteArray()
-        }else{
-            item?.img = null
-        }
+        item?.img = ConvertUtils.drawableToByteArray(imageEd.drawable)
 
         //save to db
         when (dataItemMode) {
@@ -108,11 +103,18 @@ class NoteCardActivity : BaseActivity() {
             putExtra(Intent.EXTRA_SUBJECT, noteTitleEd.text.toString())
             putExtra(Intent.EXTRA_TEXT, noteEd.text.toString())
             type = "text/plain"
+
+//TODO doesnt work yet - throws exception - no idea...
+//            val bmpUri = ConvertUtils.getLocalBitmapUri(imageEd)
+//            if (bmpUri != null) {
+//                // Construct a ShareIntent with link to image
+//                putExtra(Intent.EXTRA_STREAM, bmpUri)
+//                type = "image/*"
+//                }
         }
         startActivity(sendIntent)
     }
 
-    //image--------------------------------------------
 companion object {
     //image pick code
     private const val IMAGE_PICK_CODE = 1000
@@ -176,8 +178,8 @@ companion object {
             imageEd.setImageDrawable(null)
             setupUI()
         }
-
     }
+
     private fun setupUI(){
         if ((dataItemMode == DataItemMode.dimInsert || dataItemMode == DataItemMode.dimEdit) && imageEd.drawable != null) {
             deleteImageBtn.visibility = View.VISIBLE
@@ -185,5 +187,4 @@ companion object {
             deleteImageBtn.visibility = View.GONE
         }
     }
-//----------------------------------------------------
 }
