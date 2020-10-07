@@ -8,31 +8,39 @@ import com.example.leoapa.R
 import com.example.leoapa.Settings
 import java.util.*
 
+/**
+ * The class is base for all apps activities in order to set common locale and theme.
+ */
 open class BaseActivity : AppCompatActivity() {
     companion object {
-        public var dLocale: Locale? = null
-        public var settings: Settings? = null
-        public var dNightTheme: Boolean = false
+        var settings: Settings? = null //settings instance
+        var locale: Locale? = null //current locale retrieved from settings
+        var nightTheme: Boolean = false //current theme  retrieved from settings
     }
 
     init {
-        updateConfig(this)
+        updateLocale(this)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (dNightTheme) {
+        if (nightTheme) {
             setTheme(R.style.ThemeOverlay_AppCompat_Dark_Leoapa)
         }else{
             setTheme(R.style.ThemeOverlay_AppCompat_DayNight)
         }
         super.onCreate(savedInstanceState)
     }
-    fun updateConfig(wrapper: ContextThemeWrapper) {
-        if(dLocale ==Locale("") ) // Do nothing if dLocale is null
+
+    /**
+     * The function updates app's locale
+     */
+    private fun updateLocale(wrapper: ContextThemeWrapper) {
+        if(locale ==Locale("") ) // Do nothing if dLocale is null
             return
 
-        Locale.setDefault(dLocale)
+        Locale.setDefault(locale)
         val configuration = Configuration()
-        configuration.setLocale(dLocale)
+        configuration.setLocale(locale)
         wrapper.applyOverrideConfiguration(configuration)
     }
 }

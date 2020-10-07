@@ -15,8 +15,8 @@ class App : Application() {
 
         val lng = settings.retrieveParamString(AppParams.prmLang)
 
-        BaseActivity.dLocale = Locale(lng) //set any locale you want here
-        BaseActivity.dNightTheme = settings.retrieveParamBool(
+        BaseActivity.locale = Locale(lng) //set any locale you want here
+        BaseActivity.nightTheme = settings.retrieveParamBool(
             AppParams.prmTheme
         )
     }

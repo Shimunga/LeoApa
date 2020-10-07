@@ -11,9 +11,17 @@ import com.example.leobase.UIutils
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.util.*
 
+/**
+ * The class contains UI controls for changing app's settings
+ */
 class SettingsActivity : BaseActivity() {
-    lateinit var spinner: Spinner
+//region Variables, constants definition
+    lateinit var spinner: Spinner //select view for choosing language
+    /**
+     * Flag true - when setting value for lang. list - to avoid firing selection event handler up
+     */
     private var isSpinerSetup: Boolean = false
+//endregion
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,14 +30,21 @@ class SettingsActivity : BaseActivity() {
 
         setupLanguage()
 
+        //define event handler for items list visualisation style change
         staggLinearSwitch.setOnCheckedChangeListener { _, isLinearStaggered ->
             setLayoutModeSetting(isLinearStaggered)}
+
+        //define event handler for day/night style change
         themeSwitch.setOnCheckedChangeListener { _, isNight ->
             setThemeSetting(isNight)}
 
         applySettingsOnStart()
     }
 
+    /**
+     * The function saves list visualisation mode to prefs.
+     * @param isLinearStaggered true - linear (classic list) style, false - staggered cards
+     */
     private fun setLayoutModeSetting(isLinearStaggered: Boolean){
         if(!staggLinearSwitch.isPressed()) { return } //no need to fire event when setting up controls when view opening
 
@@ -37,6 +52,10 @@ class SettingsActivity : BaseActivity() {
         //nothing to do because this setting will be used in other activity
     }
 
+    /**
+     * The function saves to prfs if night mode is chosen.
+     * @param isNight true - night mode, otherwise - day
+     */
     private fun setThemeSetting(isNight: Boolean){
         if(!themeSwitch.isPressed()) { return } //no need to fire event when setting up controls when view opening
 
@@ -45,6 +64,9 @@ class SettingsActivity : BaseActivity() {
         UIutils.showInfo(this, getString(R.string.msgThemeChangeConfirmation))
     }
 
+    /**
+     * The functions applies the earlier saved settings to UI controls in order to depict current state
+     */
     private fun applySettingsOnStart(){
         staggLinearSwitch.isChecked = settings?.retrieveParamBool(AppParams.prmLayoutMode)!!
 
@@ -54,6 +76,9 @@ class SettingsActivity : BaseActivity() {
         themeSwitch.isChecked = settings?.retrieveParamBool(AppParams.prmTheme)!!
     }
 
+    /**
+     * The function sets the language control up and defines selection delegate fuctions
+     */
     private fun setupLanguage() {
         //currentLanguage = intent.getStringExtra(currentLang).toString()
         spinner = findViewById(R.id.langSel)
@@ -84,24 +109,29 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
+    /**
+     * The function restarts the app
+     */
     fun restartApp(){
         if (isSpinerSetup) {
             isSpinerSetup = false
             return
         }
-
         UIutils.showInfo(this, this.getString(R.string.msgLangChangeConfirmation))
-
-//        val intent = Intent(this, MainActivity::class.java)
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//        finish()
-//        this.startActivity(intent)
-//        Runtime.getRuntime().exit(0)
-
-//        val intent = intent
-//        finish()
-//        startActivity(intent)
+        //TODO restart doesnt work - must be recoded
+        //        val intent = Intent(this, MainActivity::class.java)
+        //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        //        finish()
+        //        this.startActivity(intent)
+        //        Runtime.getRuntime().exit(0)
+        //        val intent = intent
+        //        finish()
+        //        startActivity(intent)
     }
+
+    /**
+     * The function defines what happens when back button is pressed
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.getItemId()) {
             android.R.id.home -> {

@@ -25,5 +25,7 @@
     <string name="themeLb">Night mode</string>
     <string name="msgThemeChangeConfirmation">You changed the app\'s visual theme! Restart the app to apply changes.</string>
     <string name="msgInfoPermissionDenied">Permission denied</string>
+    <string name="noteActivityTitle">Edit Note</string>
+    <string name="noteSettingsTitle">Settings</string>
 
 </resources>

@@ -23,7 +23,9 @@
     <string name="Ok">Ok</string>
     <string name="msgLangChangeConfirmation">Ir mainīta lietotnes valoda! Restarējiet lietotni, lai izmaiņas stātos spēkā.</string>
     <string name="msgThemeChangeConfirmation">Ir mainīta lietotnes vizuālā tēma! Restarējiet lietotni, lai izmaiņas stātos spēkā.</string>
-    <string name="themeLb">Night mode</string>
-    <string name="msgInfoPermissionDenied">Permission denied</string>
+    <string name="themeLb">Nakts režīms</string>
+    <string name="msgInfoPermissionDenied">Piekļuve liegta</string>
+    <string name="noteActivityTitle">Ievadiet piezīmi</string>
+    <string name="noteSettingsTitle">Iestatījumi</string>
 
 </resources>

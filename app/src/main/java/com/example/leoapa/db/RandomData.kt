@@ -3,17 +3,10 @@ package com.example.leoapa
 import android.annotation.SuppressLint
 import java.util.Random
 
-sealed class NoteItem{
-    var title: String =""
-    constructor(title: String){
-        this.title = title
-    }
-}
-data class NoteItemText(val _title: String, val text: String) : NoteItem(_title)
-data class NoteItemImage(val _title: String, val uri: String) : NoteItem(_title)
-
+/**
+ * Singleton class for generating data for testing purposes
+ */
 object RandomData {
-
     private val random = Random()
 
     private const val LOREM =
@@ -24,8 +17,6 @@ object RandomData {
                 "nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa " +
                 "qui officia deserunt mollit anim id est laborum."
 
-    private const val LIST_SIZE = 10
-
     val randomLorem
         get() = LOREM.take(random.nextInt(LOREM.length))
 
@@ -34,29 +25,4 @@ object RandomData {
         get() = with(LOREM.split(" ")) {
             this[random.nextInt(size)].capitalize()
         }
-
-    private val uris = listOf(
-        "https://p.kindpng.com/picc/s/72-722801_bread-roll-png-roll-of-bread-png-transparent.png",
-        "https://atlas-content-cdn.pixelsquid.com/stock-images/bowl-with-eggs-egg-xwVrGL4-600.jpg",
-        "https://atlas-content-cdn.pixelsquid.com/stock-images/glass-of-milk-2MEn1r7-600.jpg",
-        "https://www.netclipart.com/pp/m/76-768140_freshly-fresh-potatoes-fresh-potatoes-png.png"
-    )
-
-    private val randomUri
-        get() = uris[random.nextInt(uris.size)]
-
-    private val randomSize
-        get() = random.nextInt(LIST_SIZE)
-
-    val randomItem
-        get() = if (random.nextBoolean()) textItem else imageItem
-        //get() = imageItem
-
-    val items
-        get() = MutableList(randomSize) { randomItem }
-
-    val textItem get() = NoteItemText(randomTitle, randomLorem)
-
-    val imageItem get() = NoteItemImage(randomTitle,randomUri)
-
 }

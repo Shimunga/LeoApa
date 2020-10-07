@@ -4,42 +4,70 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 
-public enum class AppParams(var userString: String) {
-    prmLayoutMode("LAYOUT_STYLE_PARAM"),
-    prmLang("LANGUAGE_PARAM"),
-    prmTheme("THEME_PARAM")
+
+/**
+ * All settings are numerated in AppParams
+ */
+enum class AppParams(var userString: String) {
+    prmLayoutMode("LAYOUT_STYLE_PARAM"), //list visualisation mode
+    prmLang("LANGUAGE_PARAM"), //current language chosen
+    prmTheme("THEME_PARAM") //day/night theme
 }
 
-public class Settings(context: Context) {
+/**
+ * The class contains save/retrieve functions for app's params
+ */
+class Settings(context: Context) {
+//region Variables, constants definition
     companion object {
         const val PREFERENCES_FILE = "leoapa_preferences"
     }
-
     private val contextActivity = context
-    private val preferences: SharedPreferences = contextActivity.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE)
+    //preferences persistence object
+    private val preferences: SharedPreferences =
+        contextActivity.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE)
+//endregion
+
 
     init {
-         // clearParam()
+        //when params must be cleared, take the comments off
+        // clearParam()
     }
 
-    public fun retrieveParamString(param: AppParams): String? {
+    /**
+     * The function gets the string param from the prefs
+     */
+    fun retrieveParamString(param: AppParams): String? {
         return preferences.getString(param.userString, "en")
     }
-    public fun retrieveParamBool(param: AppParams): Boolean {
+
+    /**
+     * The function gets the boolean param from the prefs
+     */
+    fun retrieveParamBool(param: AppParams): Boolean {
         return preferences.getBoolean(param.userString, false)
     }
 
-    public fun saveParam(param: AppParams, value: Any) {
+    /**
+     * The function saves param to the prefs
+     * @param param param to be saved
+     * @param value param's value
+     */
+    fun saveParam(param: AppParams, value: Any) {
         val editor: SharedPreferences.Editor = preferences.edit()
         when (value) {
             is Boolean -> editor.putBoolean(param.userString, value as Boolean)
             is String -> editor.putString(param.userString, value as String)
             is Int -> editor.putInt(param.userString, value as Int)
+            else -> throw IllegalArgumentException("Not imlemented yet...")
         }
         editor.apply()
     }
 
-    public fun clearParam(){
+    /**
+     * Utility function clears all param file up
+     */
+    fun clearParam(){
         preferences.edit().clear().commit()
     }
 }

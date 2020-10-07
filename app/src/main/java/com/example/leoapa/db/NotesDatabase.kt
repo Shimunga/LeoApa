@@ -6,14 +6,25 @@ import androidx.room.Database
 import java.io.Serializable
 import java.text.BreakIterator
 
+/**
+ * Notes database abstraction class
+ */
 @Database(version = 1, entities = [NotesItem::class])
 abstract class NotesDatabase: RoomDatabase(){
    abstract fun notesItemDao(): NotesItemDao
 }
 
+/**
+ * Class contains all notes items with manipulation functions
+ */
 public class NotesItemList : MutableList<NotesItem> by mutableListOf() {
 
-  fun findByUid(uid: Long): NotesItem? {
+   /**
+    * Function searches the item by primary key field
+    * @param uid primmary key
+    * @return null if not found, item if found the note by pk
+    */
+   fun findByUid(uid: Long): NotesItem? {
      this.forEach {
         if (it.uid == uid) {
            return it
@@ -23,6 +34,9 @@ public class NotesItemList : MutableList<NotesItem> by mutableListOf() {
   }
 }
 
+/**
+ * Database singleton class
+ */
 object Database {
    private var instance: NotesDatabase? = null
    fun getInstance(context: Context) = instance?: Room.databaseBuilder(
@@ -31,6 +45,9 @@ object Database {
       .also { instance = it }
 }
 
+/**
+ * Notes item entity class. Serializable in order to pu in intent extra
+ */
 @Entity(tableName = "notes_item")
 data class NotesItem(
    var title: String,
@@ -43,6 +60,9 @@ data class NotesItem(
    var uid: Long = 0
 ): Serializable
 
+/**
+ * Note's data access object class
+ */
 @Dao
 interface NotesItemDao {
    @Insert
@@ -61,6 +81,9 @@ interface NotesItemDao {
    fun delete(item: NotesItem)
 }
 
+/**
+ * Data form states enumeration
+ */
 enum class DataItemMode(var userString: String) {
    dimNone(""),
    dimView("View"),
