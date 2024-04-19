@@ -41,6 +41,9 @@ object Database {
    private var instance: NotesDatabase? = null
    fun getInstance(context: Context) = instance?: Room.databaseBuilder(
       context.applicationContext, NotesDatabase::class.java, "leo-notes-db").allowMainThreadQueries()
+         /* allowMainThreadQueries must be called to allow long operations because all works in the
+         main (UI) thread. Otherwise IllegalStateException exception could occur - kinda "Cannot
+         access database on the main thread since it may potentially lock the UI for a long period of time."*/
       .build()
       .also { instance = it }
 }

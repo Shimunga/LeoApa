@@ -3,6 +3,7 @@ package com.example.leoapa
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 
 /**
  * The class contains save/retrieve functions for app's params
@@ -20,6 +21,7 @@ class Settings(context: Context) {
 
 
     init {
+        Log.i("test", "settings init")
         //when params must be cleared, take the comments off
         // clearParam()
     }

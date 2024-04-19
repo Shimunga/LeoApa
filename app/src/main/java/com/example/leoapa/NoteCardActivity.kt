@@ -91,6 +91,8 @@ class NoteCardActivity : BaseActivity() {
                 //in order to get the image - converts BytesArray to drawable
                 imageEd.setImageDrawable(ConvertUtils.byteArrayToDrawable(item?.img))
             }
+
+            else -> {}
         }
         setupUI()
     }
@@ -116,6 +118,7 @@ class NoteCardActivity : BaseActivity() {
         when (dataItemMode) {
             DataItemMode.dimInsert -> item!!.uid = db.notesItemDao().insertAll(item!!).first()
             DataItemMode.dimEdit -> db.notesItemDao().update(item!!)
+            else -> {}
         }
 
         val result = Intent().apply {
@@ -245,6 +248,7 @@ class NoteCardActivity : BaseActivity() {
         when (dataItemMode) {
             DataItemMode.dimInsert -> {supportActionBar!!.title = "New Note"}
             DataItemMode.dimEdit -> {supportActionBar!!.title = "Edit Note"}
+            else -> {}
         }
     }
 }

@@ -11,6 +11,7 @@ class App : Application() {
         super.onCreate()
 
         var settings = Settings(this)
+
         BaseActivity.settings = settings
 
         val lng = settings.retrieveParamString(AppParams.prmLang)
@@ -18,4 +19,5 @@ class App : Application() {
         BaseActivity.locale = Locale(lng) //set any locale you want here
         BaseActivity.nightTheme = settings.retrieveParamBool(AppParams.prmTheme)
     }
+
 }
