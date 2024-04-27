@@ -120,7 +120,7 @@ class NoteCardActivity : BaseActivity() {
             DataItemMode.dimEdit -> db.notesItemDao().update(item!!)
             else -> {}
         }
-
+//
         val result = Intent().apply {
             putExtra("DataItemMode", dataItemMode)
             putExtra("NotesItem", item)

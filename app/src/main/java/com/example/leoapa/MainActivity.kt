@@ -41,7 +41,7 @@ class MainActivity : BaseActivity(), AdapterEventListener {
      mainItemsGrd.adapter = adapter
 
 
-     applySettings();
+     applySettings()
     }
 
     /**
